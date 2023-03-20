@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 
+#include "list.h"
 #include "window.h"
 #include "entity.h"
 
