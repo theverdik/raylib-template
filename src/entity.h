@@ -19,6 +19,6 @@ typedef struct {
 	Color color;
 } Entity;
 
-Entity entity_create(EntityType type, float x, float y, float width, float height);
+Entity *entity_create(EntityType type, float x, float y, float width, float height);
 
 #endif // ENTITY_H
