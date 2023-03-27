@@ -3,10 +3,15 @@
 ---
 
 ## How to build
+
 ```
-make debug
+$ git clone https://github.com/theverdik/raylib-template.git --recurse-submodules
+```
+and
+```
+$ make deps release
 ```
 or
 ```
-make release
+$ make deps debug
 ```

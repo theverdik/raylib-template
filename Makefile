@@ -8,12 +8,12 @@ CC = clang
 LD = clang
 
 CFLAGS =  -std=c11 -Wall -pedantic -Isrc
-CFLAGS += 
+CFLAGS += -Ideps/raylib/src 
 
 CFLAGS_DEB = -O0 -g -gdwarf-4
 CFLAGS_REL = -O3
 
-LDFLAGS = -lraylib -lm
+LDFLAGS = -Wl,-rpath,./deps/build/raylib/raylib -L./deps/build/raylib/raylib/ -lraylib -lm
 
 rwildcard = $(foreach d, $(wildcard $1*), $(call rwildcard, $d/, $2) $(filter $(subst *, %, $2), $d))
 
@@ -26,7 +26,7 @@ OBJ_REL     = $(patsubst src/%.c, $(OBJ_REL_DIR)/%.o,   $(SRC))
 EXE_REL = build/release/game
 EXE_DEB = build/debug/game
 
-.PHONY: debug release clean# deps cleandeps
+.PHONY: debug release clean deps cleandeps
 
 debug: $(OBJ_DEB)
 	@ echo -e "$(GREEN)LINKING EXECUTABLE$(NC) $(EXE_DEB)"
@@ -50,12 +50,12 @@ clean:
 	@ echo -e "$(YELLOW)CLEANING PROJECT$(NC)"
 	@ rm -rf build
 
-# deps:
-#	@ echo -e "$(CYAN)UPDATING SUBMODULES$(NC)"       && git submodule update --init --recursive --depth=1
-#	@ echo -e "$(BLUE)BUILDING DEPENDENCY$(NC) PCRE2" && cd deps && mkdir -p build/pcre2 && cd build/pcre2 && \
-#	cmake ../../pcre2 -DBUILD_SHARED_LIBS=OFF -DPCRE2_BUILD_TESTS=OFF && cmake --build . --config Release && make -j4
+deps:
+	@ echo -e "$(CYAN)UPDATING SUBMODULES$(NC)"        && git submodule update --init --recursive --depth=1
+	@ echo -e "$(BLUE)BUILDING DEPENDENCY$(NC) RAYLIB" && cd deps && mkdir -p build/raylib && cd build/raylib && \
+	cmake ../../raylib -DBUILD_SHARED_LIBS=ON && cmake --build . --config Release && make -j4
 
-# depsclean:
-#	@ echo -e "$(YELLOW)CLEANING DEPENDENCIES$(NC)"
-#	@ rm -rf deps/build
+depsclean:
+	@ echo -e "$(YELLOW)CLEANING DEPENDENCIES$(NC)"
+	@ rm -rf deps/build
 

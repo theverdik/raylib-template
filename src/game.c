@@ -37,19 +37,19 @@ void game_run(int32_t width , int32_t height, const char *title)
     const double delta_time = 1.0 / 60.0;
 
     double currentTime = GetTime();
+	double newTime;
     double accumulator = 0.0;
 
     while (!window_should_close())
     {
 		update(game);
 
-        double newTime = GetTime();
-        double frameTime = newTime - currentTime;
+        newTime = GetTime();
+
+        accumulator += newTime - currentTime;
         currentTime = newTime;
 
-        accumulator += frameTime;
-
-        while ( accumulator >= delta_time )
+        while (accumulator >= delta_time)
         {
             tick(game);
             accumulator -= delta_time;
