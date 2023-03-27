@@ -5,10 +5,12 @@
 
 #include "entity.h"
 #include "game.h"
+#include "graphics/window.h"
 
 static Game *init(int32_t width, int32_t height, const char *title);
 
 static void update(Game *game);
+static void tick(Game *game);
 static void render(Game *game);
 
 static void terminate(Game *game);
@@ -32,12 +34,29 @@ void game_run(int32_t width , int32_t height, const char *title)
 	Entity *entity = list_add(game->entities, entity_create(0, 0, 0, 100.0f, 100.0f), sizeof(Entity))->data;
 	entity->color = BLUE;
 
-	while (!window_should_close()) {
-		game->delta_time = GetFrameTime();
+    const double delta_time = 1.0 / 60.0;
 
+    double currentTime = GetTime();
+    double accumulator = 0.0;
+
+    while (!window_should_close())
+    {
 		update(game);
-		render(game);
-	}
+
+        double newTime = GetTime();
+        double frameTime = newTime - currentTime;
+        currentTime = newTime;
+
+        accumulator += frameTime;
+
+        while ( accumulator >= delta_time )
+        {
+            tick(game);
+            accumulator -= delta_time;
+        }
+
+        render(game);
+    }
 
 	terminate(game);
 }
@@ -45,6 +64,10 @@ void game_run(int32_t width , int32_t height, const char *title)
 static void update(Game *game)
 {
 	window_update(game->window);
+}
+
+static void tick(Game *game)
+{
 }
 
 static void render(Game *game)
@@ -61,6 +84,7 @@ static void render(Game *game)
 
 static void terminate(Game *game)
 {
+	CloseAudioDevice();
 	window_destroy(game->window);
 	list_free(game->entities);
 	free(game);
