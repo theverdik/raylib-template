@@ -17,10 +17,10 @@ List *list_create(void)
 	return list;
 }
 
-Node *list_get(List *list, uint32_t id)
+Node *list_get(List *list, void *data)
 {
 	Node *temp;
-	for (temp = list->head; temp->id != id; temp = temp->next);
+	for (temp = list->head; temp->data != data; temp = temp->next);
 
 	return temp;
 }
@@ -31,8 +31,7 @@ Node *list_add(List *list, void *data, size_t size)
 		Node *head = list->head;
 
 		head = malloc(sizeof(Node));
-		head->data = malloc(size);
-		memcpy(head->data, data, size);
+		head->data = data;
 		head->id = list->id_counter++;
 		head->next = NULL;
 
@@ -45,36 +44,39 @@ Node *list_add(List *list, void *data, size_t size)
 	for (temp = list->head; temp->next != NULL; temp = temp->next);
 
 	temp->next = malloc(sizeof(Node));
-	temp->next->data = malloc(size);
 	temp = temp->next;
-	memcpy(temp->data, data, size);
+	temp->data = data;
 	temp->id = list->id_counter++;
 	temp->next = NULL;
 
 	return temp;
 }
 
-void list_remove(List *list, uint32_t id)
+void list_remove(List *list, void *data)
 {
-	if (id >= list->id_counter || list->head == NULL)
+	if (list->head == NULL)
 		return;
 
-	if (list->head->id == id) {
+	if (list->head->data == data) {
 		Node *temp = list->head->next;
+
+		free(list->head->data);
 		free(list->head);
+
 		list->head = temp;
 
 		return;
 	}
 
 	Node *current;
-	for (current = list->head; current->next->id != id; current = current->next) {
+	for (current = list->head; current->next->data != data; current = current->next) {
 		if (current->next->next == NULL)
 			return;
 	}
 
 	Node *temp = current->next;
 	current->next = current->next->next;
+	free(temp->data);
 	free(temp);
 }
 
@@ -96,7 +98,7 @@ void list_remove_marked(List *list)
 		return;
 
 	for (uint32_t i = 0; i < list->marked_iterator; ++i)
-		list_remove(list, list->marked_for_removal[i]->id);
+		list_remove(list, list->marked_for_removal[i]->data);
 	list->marked_iterator = 0;
 }
 

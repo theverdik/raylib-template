@@ -11,9 +11,9 @@
 
 typedef struct {
 	Window *window;
-	List *entities;
-
 	float delta_time;
+
+	List *entities, *textures, *sounds;
 } Game;
 
 void game_run(int32_t width , int32_t height, const char *title);

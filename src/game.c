@@ -26,6 +26,8 @@ void game_run(int32_t width , int32_t height, const char *title)
 	Game *game = init(width, height, title);
 
 	while (!window_should_close()) {
+		game->delta_time = GetFrameTime();
+
 		update(game);
 		render(game);
 	}

@@ -24,9 +24,9 @@ typedef struct {
 
 List *list_create(void);
 
-Node *list_get(List *list, uint32_t id);
+Node *list_get(List *list, void *data);
 Node *list_add(List *list, void *data, size_t size);
-void  list_remove(List *list, uint32_t id);
+void  list_remove(List *list, void *data);
 
 void list_mark_for_removal(List *list, Node *node);
 void list_remove_marked(List *list);
