@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-#include "window.h"
+#include "graphics/window.h"
 
 bool already_exists = false;
 

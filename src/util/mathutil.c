@@ -1,6 +1,6 @@
 #include <math.h>
 
-#include "mathutil.h"
+#include "util/mathutil.h"
 
 // non-ptr
 

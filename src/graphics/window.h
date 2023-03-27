@@ -2,6 +2,7 @@
 #define WINDOW_H
 
 #include <raylib.h>
+
 #include <stdint.h>
 
 #define window_should_close WindowShouldClose

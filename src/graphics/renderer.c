@@ -1,5 +1,6 @@
-#include "renderer.h"
 #include <raylib.h>
+
+#include "graphics/renderer.h"
 
 void renderer_clear(Color color)
 {

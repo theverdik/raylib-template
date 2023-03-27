@@ -1,7 +1,7 @@
 #include <raylib.h>
 #include <stdlib.h>
 
-#include "texture.h"
+#include "graphics/texture.h"
 
 Texture2D *texture_create(const char *file)
 {
