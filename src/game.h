@@ -5,9 +5,9 @@
 
 #include <stdint.h>
 
-#include "entity.h"
 #include "util/list.h"
 #include "graphics/window.h"
+#include "entities/entity.h"
 
 typedef struct {
 	Window *window;
@@ -16,6 +16,6 @@ typedef struct {
 	List *entities, *textures, *sounds, *music;
 } Game;
 
-void game_run(int32_t width , int32_t height, const char *title);
+void game_run(void);
 
 #endif // GAME_H

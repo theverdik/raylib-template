@@ -3,11 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "entity.h"
 #include "game.h"
-#include "graphics/window.h"
+#include "graphics/renderer.h"
 
-static Game *init(int32_t width, int32_t height, const char *title);
+#define WIDTH 1280
+#define HEIGHT 720
+#define TITLE "Game"
+
+static Game *init(void);
 
 static void update(Game *game);
 static void tick(Game *game);
@@ -15,11 +18,11 @@ static void render(Game *game);
 
 static void terminate(Game *game);
 
-static Game *init(int32_t width, int32_t height, const char *title)
+static Game *init(void)
 {
 	Game *game = malloc(sizeof(Game));
 
-	game->window = window_init(width, height, title);
+	game->window = window_init(WIDTH, HEIGHT, TITLE);
 	InitAudioDevice();
 
 	game->entities = list_create();
@@ -27,12 +30,9 @@ static Game *init(int32_t width, int32_t height, const char *title)
 	return game;
 }
 
-void game_run(int32_t width , int32_t height, const char *title)
+void game_run(void)
 {
-	Game *game = init(width, height, title);
-
-	Entity *entity = list_add(game->entities, entity_create(0, 0, 0, 100.0f, 100.0f), sizeof(Entity))->data;
-	entity->color = BLUE;
+	Game *game = init();
 
     const double delta_time = 1.0 / 60.0;
 
@@ -75,9 +75,9 @@ static void render(Game *game)
 	BeginDrawing();
 	ClearBackground(game->window->background);
 	
-	for (Node *temp = game->entities->head; temp != NULL; temp = temp->next) {
-		DrawRectangleRec(((Entity *)temp->data)->body, ((Entity *)temp->data)->color);
-	}
+	// for (Node *temp = game->entities->head; temp != NULL; temp = temp->next) {
+	// 	renderer_render_entity(temp->data);
+	// }
 
 	EndDrawing();
 }

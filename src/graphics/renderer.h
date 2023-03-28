@@ -3,10 +3,10 @@
 
 #include <raylib.h>
 
-#include "entity.h"
+#include "entities/entity.h"
 
 void renderer_clear(Color color);
-void renderer_render_rec(Entity *entity);
-void renderer_render_texture_rec(Entity *entity, Texture2D *texture);
+void renderer_render_entity(Entity *entity);
+void renderer_render_textured_entity(Entity *entity, Texture2D *texture);
 
 #endif // RENDERER_H

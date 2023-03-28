@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "entity.h"
+#include "entities/entity.h"
 
 Entity *entity_create(EntityType type, float x, float y, float width, float height)
 {

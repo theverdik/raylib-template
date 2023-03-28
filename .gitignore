@@ -2,7 +2,7 @@
 .vscode/
 
 build/
-compileflags.txt
+compile_flags.txt
 
 *.o
 *.so

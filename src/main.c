@@ -2,7 +2,7 @@
 
 int main(void)
 {
-	game_run(1280, 720, "Game");
+	game_run();
 	
 	return 0;
 }
